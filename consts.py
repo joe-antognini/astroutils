@@ -15,6 +15,7 @@ speed_of_light_km_s = 299792.458 # km / s
 # Masses
 solarmass2kg = 1.989e30
 solarmass = 1.989e30
+msun = 1.989e30
 
 # Distances
 parsec2m = 3.0857e16
@@ -22,6 +23,7 @@ parsec = 3.0857e16
 au2m = 1.496e11
 au = 1.496e11
 rsun2m = 6.9599e8
+rsun = 6.9599e8
 mpc2m = 3.0857e22
 kpc2m = 3.0857e19
 m2mpc = 1 / mpc2m
