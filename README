@@ -1,6 +1,7 @@
 A collection of astrophysics functions I've used over the years.
 
 Packages:
-  consts -- A collection of physical constants and conversions.
+  consts -- A collection of physical constants and conversions
   cosmology -- Functions to perform cosmological calculations
-  orbits -- Functions to calculate orbital mechanics.
+  dynamics -- Functions to solve problems in dynamics
+  orbits -- Functions to calculate orbital mechanics
