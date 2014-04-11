@@ -34,11 +34,14 @@ def vcrit_tripsing(m, a):
     m4)) / (a1 * a11 * (m1 + m2 + m3) * m4))
 
 def mardling(q_out, e_out, inc=0):
-  '''Calculate the maximum eccentricity for which the triple is stable
-  according to the Mardling stability criterion.  See Mardling & Aarseth
-  (2001) for more details, specifically Eq. 90.
+  '''Calculate the ratio between the outer periapsis distance to the inner
+  semi-major axis for which the triple is stable according to the Mardling
+  stability criterion.  See Mardling & Aarseth (2001) for more details,
+  specifically Eq. 90.
 
   Inputs:
+    a_in -- The inner semi-major axis
+
     q_out -- The mass ratio between the inner and outer binaries.
       Equivalent to m3 / (m1 + m2)
 
@@ -47,11 +50,40 @@ def mardling(q_out, e_out, inc=0):
     inc [deg ] -- Inclination of the outer binary.  
 
   Output:
-    The maximum eccentricity for which the triple is stable.
+    The critical ratio between the outer periapsis distance to the inner
+    semi-major axis for which the triple is Mardling stable.
   '''
+
   from math import sqrt
   
   # An empirically determined constant
   C = 2.8
 
-  return 1 - C * ((1 + q_out) * (1 + e_out) / sqrt(1 - e_out))**(2./5)
+  ratio = C * ((1 + q_out) * (1 + e_out) / sqrt(1 - e_out))**(2./5)
+
+  # Correct for inclination (see p. 414)
+  ratio *= (1 - 0.3 * inc / 180)
+
+  return ratio
+
+def mardling_ecc(alpha, q_out, inc=0):
+  '''Calculate the critical outer eccentricity at which a hierarchical
+  triple is Mardling unstable for a given semi-major axis ratio.
+
+  Inputs:
+    alpha -- The semi-major axis ratio
+
+    q_out -- The mass ratio between the inner and outer binaries.
+      Equivalent to m3 / (m1 + m2)
+
+    inc [deg ] -- Inclination of the outer binary.  
+
+  Output:
+    The maximum eccentricity for which the triple is stable.
+  '''
+
+  import sys
+  from scipy.optimize import brentq
+
+  f = lambda ecc: mardling(q_out, ecc, inc) - (1 - ecc) * alpha
+  return brentq(f, 0, 1 - sys.float_info.epsilon)
