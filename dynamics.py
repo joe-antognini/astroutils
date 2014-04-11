@@ -33,14 +33,12 @@ def vcrit_tripsing(m, a):
   return sqrt((G * (a1 * m1 * m2 + a11 * (m1 + m2) * m3) * (m1 + m2 + m3 +
     m4)) / (a1 * a11 * (m1 + m2 + m3) * m4))
 
-def mardling(a_in, q_out, e_out, inc=0):
+def mardling(q_out, e_out, inc=0):
   '''Calculate the maximum eccentricity for which the triple is stable
   according to the Mardling stability criterion.  See Mardling & Aarseth
   (2001) for more details, specifically Eq. 90.
 
   Inputs:
-    a_in -- The semi-major axis ratio of the inner binary.
-
     q_out -- The mass ratio between the inner and outer binaries.
       Equivalent to m3 / (m1 + m2)
 
