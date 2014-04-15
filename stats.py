@@ -23,7 +23,7 @@ def wilson_score(p, n, z=1):
 
   discriminant = z * sqrt(p / n * (1 - p) + z**2 / (4 * n**2))
 
-  low_bound = 1 / (1 + z**2 / n) * (p + z**2 / (2 * n) + discriminant)
-  up_bound = 1 / (1 + z**2 / n) * (p + z**2 / (2 * n) - discriminant)
+  low_bound = 1 / (1 + z**2 / n) * (p + z**2 / (2 * n) - discriminant)
+  up_bound = 1 / (1 + z**2 / n) * (p + z**2 / (2 * n) + discriminant)
 
   return (low_bound, up_bound)
