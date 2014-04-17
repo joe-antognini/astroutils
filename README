@@ -4,4 +4,6 @@ Packages:
   consts -- A collection of physical constants and conversions
   cosmology -- Functions to perform cosmological calculations
   dynamics -- Functions to solve problems in dynamics
+  matplotlibrc -- Default settings for matplotlib
   orbits -- Functions to calculate orbital mechanics
+  stats -- Functions to perform statistical calculations
