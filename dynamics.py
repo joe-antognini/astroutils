@@ -26,12 +26,45 @@ def vcrit_tripsing(m, a):
       The critical velocity as an astropy quantity.
   '''
 
+  from astropy.constants import G
+
   # Unpack the inputs
   m1, m2, m3, m4 = m
   a11, a1 = a
 
   return sqrt((G * (a1 * m1 * m2 + a11 * (m1 + m2) * m3) * (m1 + m2 + m3 +
     m4)) / (a1 * a11 * (m1 + m2 + m3) * m4))
+
+def vcrit_tripbin(m, a):
+  '''
+  Calculate the critical velocity of a binary scattering off of a
+  hierarchical triple.  (The critical velocity is the velocity at which the
+  total energy of the system is zero.)
+
+  Inputs:
+    m -- a tuple containing the five masses of the stars as astropy
+      quantities in the following order:
+        (star 1 of the inner binary, star 2 of the inner binary, tertiary,
+        star 1 of the interloping binary, star 2 of the interloping binary)
+
+    a -- a tuple containing the three semi-major axes of the hierarchical
+      triple and the interloping binary as an astropy quantity in the
+      following order: (inner semi-major axis, outer semi-major axis,
+      interloping binary semi-major axis)
+
+    Output:
+      The critical velocity as an astropy quantity.
+  '''
+
+  from astropy.constants import G
+
+  # Unpack the inputs
+  m000, m001, m01, m10, m11 = m
+  a00, a0, a1 = a
+
+  return sqrt((G * (m000 + m001 + m01 + m10 + m11) * (a00 * a1 * 
+    (m000 + m001) * m01 + a0 * (a1 * m000 * m001 + a00 * m10 * m11))) /
+    (a0 * a00 * a1 * (m000 + m001 + m01) * (m10 + m11))
 
 def mardling(q_out, e_out, inc=0):
   '''Calculate the ratio between the outer periapsis distance to the inner
