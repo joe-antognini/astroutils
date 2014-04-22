@@ -5,7 +5,6 @@
 #
 
 from numpy import sqrt
-from astropy.constants import G, M_sun
 
 def vcrit_tripsing(m, a):
   '''Calculate the critical velocity of a single star scattering off of a
@@ -64,7 +63,7 @@ def vcrit_tripbin(m, a):
 
   return sqrt((G * (m000 + m001 + m01 + m10 + m11) * (a00 * a1 * 
     (m000 + m001) * m01 + a0 * (a1 * m000 * m001 + a00 * m10 * m11))) /
-    (a0 * a00 * a1 * (m000 + m001 + m01) * (m10 + m11))
+    (a0 * a00 * a1 * (m000 + m001 + m01) * (m10 + m11)))
 
 def mardling(q_out, e_out, inc=0):
   '''Calculate the ratio between the outer periapsis distance to the inner
