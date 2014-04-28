@@ -40,26 +40,25 @@ def sample(X, Y, n_points=1000, return_indices=False, xlog=False,
     X_samp = X
     Y_samp = Y
   else:
-    # Determine if we're splitting the data linearly or logarithmically
-    if xlog:
-      xsplit_func = np.logspace
-    else:
-      xsplit_func = np.linspace
-
-    if ylog:
-      ysplit_func = np.logspace
-    else:
-      ysplit_func = np.linspace
-
     X_samp = np.zeros(n_points)
     Y_samp = np.zeros(n_points)
-    if return_indices:
-      indices = np.arange(len(X))
-      indices_samp = np.zeros(n_points)
+    indices = np.arange(len(X))
+    indices_samp = np.zeros(n_points)
 
-    xintervals = xsplit_func(min(X), max(X), num=bins)
-    yintervals = ysplit_func(min(Y), max(Y), num=bins)
+    # Sample either linearly or logarithmically in x and y
+    if xlog:
+      xintervals = np.logspace(np.log10(min(X)), np.log10(max(X)), num=bins)
+    else:
+      xintervals = np.linspace(min(X), max(X), num=bins)
 
+    if ylog:
+      yintervals = np.logspace(np.log10(min(Y)), np.log10(max(Y)), num=bins)
+    else:
+      yintervals = np.linspace(min(Y), max(Y), num=bins)
+
+    total_points_sampled = 0
+
+    # Sample points from the full range in the x-coordinate
     for i, elem in enumerate(xintervals[:-1]):
       binX = X[(elem < X) & (X < xintervals[i+1])]
       binY = Y[(elem < X) & (X < xintervals[i+1])]
@@ -72,11 +71,13 @@ def sample(X, Y, n_points=1000, return_indices=False, xlog=False,
       bini_samp = bini[rand_indices]
 
       # Put the sampled data points from this bin into the output array
-      X_samp[i*n_samp:(i+1)*n_samp] = binX_samp
-      Y_samp[i*n_samp:(i+1)*n_samp] = binY_samp
-      if return_indices:
-        indices_samp[i*n_samp:(i+1)*n_samp] = bini_samp
+      X_samp[total_points_sampled:total_points_sampled + n_samp] = binX_samp
+      Y_samp[total_points_sampled:total_points_sampled + n_samp] = binY_samp
+      indices_samp[total_points_sampled:total_points_sampled + n_samp] = \
+        bini_samp
+      total_points_sampled += n_samp
 
+    # Sample points from the full range in the y-coordinate
     for i, elem in enumerate(yintervals[:-1]):
       binX = X[(elem < Y) & (Y < yintervals[i+1])]
       binY = Y[(elem < Y) & (Y < yintervals[i+1])]
@@ -88,28 +89,19 @@ def sample(X, Y, n_points=1000, return_indices=False, xlog=False,
       binY_samp = binY[rand_indices]
       bini_samp = bini[rand_indices]
 
-      X_samp[bins*n_samp + i*n_samp:bins*n_samp + (i+1)*n_samp] = binX_samp
-      Y_samp[bins*n_samp + i*n_samp:bins*n_samp + (i+1)*n_samp] = binY_samp
-      if return_indices:
-        indices_samp[bins*n_samp + i*n_samp:bins*n_samp + (i+1)*n_samp] = \
+      X_samp[total_points_sampled:total_points_sampled + n_samp] = binX_samp
+      Y_samp[total_points_sampled:total_points_sampled + n_samp] = binY_samp
+      indices_samp[total_points_sampled:total_points_sampled + n_samp] = \
           bini_samp
+      total_points_sampled += n_samp
 
     # If we didn't get enough points, pad the rest of the output with random
     # points
-    if 2 * bins * n_samp < n_points:
-      print >> sys.stderr, n_points - 2 * bins * n_samp
-      rand_indices = rand.sample(X, n_points - bins*n_samp)
-      X_samp[bins*n_samp+1:bins*n_samp+2+len(rand_indices)] = X[rand_indices]
-      Y_samp[bins*n_samp+1:bins*n_samp+2+len(rand_indices)] = Y[rand_indices]
-      if return_indices:
-        indices_samp[bins*n_samp+1:bins*n_samp+2+len(rand_indices)] = rand_indices
-
-      rand_indices = rand.sample(X, n_points - bins*n_samp)
-      X_samp[2*bins*n_samp+1:2*bins*n_samp+2+len(rand_indices)] = X[rand_indices]
-      Y_samp[2*bins*n_samp+1:2*bins*n_samp+2+len(rand_indices)] = Y[rand_indices]
-      if return_indices:
-        indices_samp[2*bins*n_samp+1:2*bins*n_samp+2+len(rand_indices)] = rand_indices
-
+    if total_points_sampled < n_points:
+      rand_indices = rand.sample(range(len(X)), n_points - total_points_sampled)
+      X_samp[total_points_sampled:] = X[rand_indices]
+      Y_samp[total_points_sampled:] = Y[rand_indices]
+      indices_samp[total_points_sampled:] = rand_indices
 
     # Now sort X and Y along the X axis.
     #sort_i = np.argsort(X_samp)
