@@ -7,7 +7,7 @@
 # etc.
 #
 
-def rand_IMF(m_l=.01, m_u=150):
+def rand_imf(m_l=.01, m_u=150):
   '''
   Randomly draw a stellar mass from an IMF.  The IMF used is that
   presented in Maschberger (2013) which was designed to be an analytic
@@ -48,5 +48,5 @@ def rand_IMF(m_l=.01, m_u=150):
   G_m_l = (1 + (m_l / mu)**(1 - alpha))**(1 - beta)
   G_m_u = (1 + (m_u / mu)**(1 - alpha))**(1 - beta)
 
-  m = (mu * ((u * (G_m_u - G_m_l) + G_m_l)**(1 / (1 - beta)) 
+  return (mu * ((u * (G_m_u - G_m_l) + G_m_l)**(1 / (1 - beta)) 
     - 1)**(1 / (1 - alpha)))
