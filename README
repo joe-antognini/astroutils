@@ -6,4 +6,5 @@ Packages:
   dynamics -- Functions to solve problems in dynamics
   matplotlibrc -- Default settings for matplotlib
   orbits -- Functions to calculate orbital mechanics
+  population -- Functions for stellar populations
   stats -- Functions to perform statistical calculations
