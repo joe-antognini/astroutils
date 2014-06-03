@@ -107,10 +107,10 @@ def wd_ifmr(mi, ifmr='kalirai'):
 
   if ifmr == 'salaris':
     # Check the range validity
-    if m < 1.7:
+    if mi < 1.7:
       raise ValueError('wd_ifmr: mass is too low!')
 
-    if m < 4:
+    if mi < 4:
       mf = 0.134 * mi + 0.331
       return mf
     else:
@@ -123,9 +123,9 @@ def wd_ifmr(mi, ifmr='kalirai'):
 
   elif ifmr == 'zhao':
     # Make sure that the range is valid.
-    if m < 1.1:
+    if mi < 1.1:
       raise ValueError('wd_ifmr: mass is too low!')
-    elif m > 4.1:
+    elif mi > 4.1:
       raise ValueError('wd_ifmr: mass is too high!')
     
     mf = 0.452 + 0.073 * mi
