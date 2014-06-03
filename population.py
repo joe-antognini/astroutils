@@ -79,7 +79,7 @@ def stellar_lifetime(m):
   else:
     return 1e10 * m**exponent
 
-def wd_ifmr(mi):
+def wd_ifmr(mi, ifmr='kalirai'):
   '''
   Calculate the final mass of a white dwarf given the initial mass of the
   star.  The calculation is based on Eq. (5) of Zhoa et al. (2012).  This
@@ -88,19 +88,46 @@ def wd_ifmr(mi):
   Parameters:
     mi: float
       Initial mass of the star (solar masses)
+    
+    imfr: str, optional
+      IFMR to use.  Options are:
+        kalirai: Kalirai et al. (2008), default
+        salaris: Salaris et al. (2009)
+        zhao: Zhao et al. (2010)
 
   Returns:
     mf: float
       Final mass of the star (solar masses)
   
   References:
-    Zhoa, J.K., et al., 2012, ApJ, 746, 144
+    Kalirai, J.S., et al., 2008, ApJ, 676, 594
+    Salaris, M., et al., 2009, ApJ, 692, 1013
+    Zhao, J.K., et al., 2012, ApJ, 746, 144
   '''
 
-  # Make sure that the range is valid.
-  if m < 1.1 or m > 4.1:
-    raise ValueError
-  
-  mf = 0.452 + 0.073 * mi
+  if ifmr == 'salaris':
+    # Check the range validity
+    if m < 1.7:
+      raise ValueError('wd_ifmr: mass is too low!')
 
-  return mf
+    if m < 4:
+      mf = 0.134 * mi + 0.331
+      return mf
+    else:
+      mf = 0.047 * mi + 0.679
+      return mf
+
+  elif ifmr == 'kalirai':
+    mf = 0.109 * mi + 0.394
+    return mf
+
+  elif ifmr == 'zhao':
+    # Make sure that the range is valid.
+    if m < 1.1:
+      raise ValueError('wd_ifmr: mass is too low!')
+    elif m > 4.1:
+      raise ValueError('wd_ifmr: mass is too high!')
+    
+    mf = 0.452 + 0.073 * mi
+
+    return mf
