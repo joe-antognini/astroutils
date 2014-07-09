@@ -51,7 +51,7 @@ def rand_imf(m_l=.01, m_u=150):
 
   return m
 
-def stellar_lifetime(m):
+def ms_lifetime(m):
   '''
   Calculate the lifetime of a star in years given its mass in solar masses.
   See Eq. (1.91) of Hansen, Kawaler, & Trimble (2004)

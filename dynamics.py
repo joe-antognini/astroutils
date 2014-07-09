@@ -6,6 +6,38 @@
 
 from numpy import sqrt
 
+def vcrit_binbin(m, a):
+  '''Calculate the critical velocity of a binary scattering off of another
+  binary.  (The critical velocity is the velocity at which the total energy
+  of the system is zero.)
+
+  Inputs:
+    m -- a tuple containing the four masses of the stars as astropy
+      quantities in the following order:
+        (star 1 of binary 1, star 2 binary 1, star 1 of binary 2, star 2 of
+        binary 2)
+
+    a -- a tuple containing the two semi-major axes of the hierarchical
+      triple as an astropy quantity in the following order:
+      (semi-major axis of binary 1, semi-major axis of binary 2)
+
+    Output:
+      The critical velocity as an astropy quantity.
+
+    References:
+      Fregeau, J. M., et al. (2004), MNRAS, 352, 1
+  '''
+
+  from astropy.constants import G
+
+  # Unpack the inputs
+  m1, m2, m3, m4 = m
+  a1, a2 = a
+  mu = (m1 + m2) * (m3 + m4) / (m1 + m2 + m3 + m4)
+
+  # See Eq. 2 of Fregeau et al. (2004)
+  return sqrt(G / mu * (m1 * m2 / a1 + m3 * m4 / a2))
+
 def vcrit_tripsing(m, a):
   '''Calculate the critical velocity of a single star scattering off of a
   hierarchical triple.  (The critical velocity is the velocity at which the

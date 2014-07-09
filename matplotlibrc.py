@@ -18,6 +18,8 @@ mpl.rcParams['xtick.minor.size'] = 5
 mpl.rcParams['ytick.major.size'] = 10
 mpl.rcParams['ytick.minor.size'] = 5
 
+#mpl.rcParams['legend.scatterpoints'] = 1
+
 plt.axes().set_aspect(1)
 
 # TODO: Set default edgecolor to none
