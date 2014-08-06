@@ -6,7 +6,7 @@
 # A collection of statistics utilities
 #
 
-def wilson_score(p, n, z=1):
+def wilson_score(p, n, z=1.):
   '''Calculate the Wilson score interval to estimate the uncertainty on the
   estimate of the frequency of an event with a binomial distribution.
 
