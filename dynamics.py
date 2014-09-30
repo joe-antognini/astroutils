@@ -6,6 +6,33 @@
 
 from numpy import sqrt
 
+def vcrit_binsing(m, a):
+  '''Calculate the critical velocity of a single star scattering off of a
+  binary.  (The critical velocity is the velocity at whcih the total energy
+  of the system is zero.)
+
+  Inputs:
+    m -- a tuple containing the three masses of the stars as astropy
+      quantities in the following order:
+        (star 1 of binary 1, star 2 binary 1, interloping star)
+
+    a -- The semi-major axis of the binary as an astropy quantity.
+
+    Output:
+      The critical velocity as an astropy quantity.
+
+    References:
+      Fregeau, J. M., et al. (2004), MNRAS, 352, 1
+  '''
+
+  from astropy.constants import G
+
+  # Unpack the inputs
+  m1, m2, m3 = m
+  mu = (m1 + m2) * m3 / (m1 + m2 + m3)
+
+  return sqrt(G / mu * m1 * m2 / a)  
+
 def vcrit_binbin(m, a):
   '''Calculate the critical velocity of a binary scattering off of another
   binary.  (The critical velocity is the velocity at which the total energy
@@ -17,9 +44,9 @@ def vcrit_binbin(m, a):
         (star 1 of binary 1, star 2 binary 1, star 1 of binary 2, star 2 of
         binary 2)
 
-    a -- a tuple containing the two semi-major axes of the hierarchical
-      triple as an astropy quantity in the following order:
-      (semi-major axis of binary 1, semi-major axis of binary 2)
+    a -- a tuple containing the two semi-major axes of the binaries as an
+      astropy quantity in the following order: (semi-major axis of binary 1,
+      semi-major axis of binary 2)
 
     Output:
       The critical velocity as an astropy quantity.
